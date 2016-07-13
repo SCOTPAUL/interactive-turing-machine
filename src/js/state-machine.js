@@ -1,4 +1,4 @@
-export TerminalStateEnum = {
+export var TerminalStateEnum = {
   SUCCESS:1,
   FAILURE:2
 }
@@ -42,4 +42,5 @@ export class Transition {
         this.tape_symbol = tape_symbol;
 
         from_state.addOutTransition(this);
+      }
 }

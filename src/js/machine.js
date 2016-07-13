@@ -1,7 +1,7 @@
 import * as state_machine from './state-machine';
 import * as tape from './tape';
 
-class TuringMachine {
+export class TuringMachine {
     constructor(){
       this.tapehead = new tape.TapeHead("");
       this.states = new Map();
