@@ -1,4 +1,4 @@
-export var TerminalStateEnum = {
+export var TerminalStateType = {
   SUCCESS:1,
   FAILURE:2
 }
@@ -9,16 +9,24 @@ export class State {
         this.outTransitions = [];
     }
 
+    isTerminal(){
+      return false;
+    }
+
     addOutTransition(transition){
-      outTransitions += transition;
+      this.outTransitions += transition;
     }
 
     nextState(tape_symbol){
-      for(var transition of outTransitions){
+      for(let transition of this.outTransitions){
         if(transition.tape_symbol === tape_symbol){
           return transition;
         }
       }
+    }
+
+    toString(){
+      return this.id;
     }
 }
 
@@ -26,6 +34,10 @@ export class TerminalState extends State {
     constructor(id, terminal_state_type){
       super(id);
       this.terminal_state_type = terminal_state_type;
+    }
+
+    isTerminal(){
+      return true;
     }
 
     nextState(tape_symbol){
@@ -41,6 +53,10 @@ export class Transition {
         this.tape_move = tape_move;
         this.tape_symbol = tape_symbol;
 
-        from_state.addOutTransition(this);
+        this.from_state.addOutTransition(this);
+      }
+
+      toString(){
+        return this.from_state + " -> " + this.to_state + ", put " + this.put_char + " if " + this.tape_symbol
       }
 }
