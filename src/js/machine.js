@@ -5,12 +5,14 @@ export class TuringMachine {
     constructor(tape_contents){
       this.tapehead = new tape.TapeHead('', tape_contents);
       this.states = new Map();
-      this.transitions = new Map();
+      this.transitions = {};
     }
 
     addState(id){
-      this.states.set(id, new state_machine.State(id));
+      var new_state = new state_machine.State(id);
+      this.states.set(id, new_state);
       console.log("Set state with id " + id);
+      this.transitions[new_state] = {};
     }
 
     addTerminalState(id, termination_type){
@@ -23,25 +25,13 @@ export class TuringMachine {
       var to_state = this.states.get(to_id);
 
       var new_transition = new state_machine.Transition(from_state, to_state, direction, put_char, tape_symbol);
-      this.transitions.set({s:from_state, t:tape_symbol}, new_transition);
+      this.transitions[from_state][tape_symbol] = new_transition;
       console.log("Set transition " + new_transition);
     }
 
     run(start_id){
       var start_state = this.states.get(start_id);
       var current_state = start_state;
-
-      var state_str = "";
-      for(let entry of this.states){
-        state_str += "[" + entry + "],";
-      }
-
-      var transition_str = "";
-      for(let entry of this.transitions){
-        transition_str += "[" + entry + "],";
-      }
-
-      console.log("Running machine with states: [" + state_str + "], transitions: [" + transition_str + "]");
 
       while(current_state !== null && !current_state.isTerminal()){
         current_state = this.step(current_state);
@@ -57,8 +47,7 @@ export class TuringMachine {
 
     step(start_state){
       var tape_symbol = this.tapehead.read();
-      var transition = this.transitions.get({s:start_state, t:tape_symbol});
-      console.log({s:start_state, t:tape_symbol} === {s:start_state, t:tape_symbol});
+      var transition = this.transitions[start_state][tape_symbol];
       console.log("Got transition [" + transition + "] for from state: " + start_state + ", tape symbol " + tape_symbol);
 
       if(transition === undefined){

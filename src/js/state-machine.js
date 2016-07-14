@@ -1,7 +1,7 @@
 export var TerminalStateType = {
   SUCCESS:1,
   FAILURE:2
-}
+};
 
 export class State {
     constructor(id){
