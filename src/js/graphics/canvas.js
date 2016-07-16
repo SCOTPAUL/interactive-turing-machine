@@ -5,8 +5,11 @@ export default class Canvas {
   constructor(){
     this.id = 0;
     this.stage = new createjs.Stage("canvas");
-    this.stage.on("stagemousedown", (event) =>
-      this.addState(this.id++, event.stageX, event.stageY));
+    this.stage.on("stagemousedown", (event) => {
+      if(!event.relatedTarget){
+        this.addState(this.id++, event.stageX, event.stageY);
+      }
+    });
   }
 
   addState(id, x, y){

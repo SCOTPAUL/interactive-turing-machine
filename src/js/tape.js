@@ -2,7 +2,7 @@ export var Direction = {
   LEFT:1,
   RIGHT:2,
   STATIONARY:3
-}
+};
 
 export class TapeNode {
     constructor(left, value, right){
@@ -49,7 +49,7 @@ export class TapeHead {
     }
 
     goLeft(){
-        if(this.tape_head.left == null){
+        if(this.tape_head.left === null){
             this.tape_head.setLeft(new TapeNode(null, this.blank_symbol, this));
         }
 
@@ -57,7 +57,7 @@ export class TapeHead {
     }
 
     goRight(){
-        if(this.tape_head.right == null){
+        if(this.tape_head.right === null){
             this.tape_head.setRight(new TapeNode(this, this.blank_symbol, null));
         }
 
