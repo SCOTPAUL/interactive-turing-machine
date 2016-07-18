@@ -1,22 +1,24 @@
 import * as state_machine from './state-machine';
 import * as tape from './tape';
+import State from './graphics/state'
+import Canvas from './graphics/canvas'
 
 export class TuringMachine {
     constructor(tape_contents){
       this.tapehead = new tape.TapeHead('', tape_contents);
       this.states = new Map();
       this.transitions = {};
+      this.gui = new Canvas(this);
     }
 
     addState(id){
       var new_state = new state_machine.State(id);
       this.states.set(id, new_state);
       console.log("Set state with id " + id);
-      this.transitions[new_state] = {};
     }
 
     addTerminalState(id, termination_type){
-      this.states.set(id, new state_machine.TerminalState(id, termination_type));
+      this.states.set(id, new state_machine.State(id, termination_type));
       console.log("Set terminal state with id " + id);
     }
 
@@ -24,8 +26,8 @@ export class TuringMachine {
       var from_state = this.states.get(from_id);
       var to_state = this.states.get(to_id);
 
-      var new_transition = new state_machine.Transition(from_state, to_state, direction, put_char, tape_symbol);
-      this.transitions[from_state][tape_symbol] = new_transition;
+      var new_transition = new state_machine.Transition(to_state, direction, put_char, tape_symbol);
+      from_state.addOutTransition(new_transition);
       console.log("Set transition " + new_transition);
     }
 
@@ -41,14 +43,13 @@ export class TuringMachine {
         console.log("Error, invalid state transition");
       }
       else {
-        console.log("Terminated with state " + current_state.terminal_state_type);
+        console.log("Terminated with state " + current_state.terminalState);
       }
     }
 
     step(start_state){
-      var tape_symbol = this.tapehead.read();
-      var transition = this.transitions[start_state][tape_symbol];
-      console.log("Got transition [" + transition + "] for from state: " + start_state + ", tape symbol " + tape_symbol);
+      const tape_symbol = this.tapehead.read();
+      const transition = start_state.findOutTransition(tape_symbol);
 
       if(transition === undefined){
         return null;

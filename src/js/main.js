@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import {TuringMachine} from './machine';
 import * as tape from './tape';
 import * as state_machine from './state-machine'
@@ -16,10 +17,6 @@ function init(){
   machine.run(1);
 
   var can = new Canvas();
-
-  can.addState(1, 5, 10);
-  can.addState(2, 20, 50);
-  can.addState(0, 80, 90);
 
 }
 

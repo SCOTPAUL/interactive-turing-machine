@@ -1,7 +1,8 @@
 class State extends createjs.Container {
-  constructor(id, radius=20, colour='#058'){
+  constructor(id, canvas, radius=20, colour='#058'){
     super();
 
+    this.canvas = canvas;
     this.id = id;
     this.colour = colour;
     this.radius = radius;

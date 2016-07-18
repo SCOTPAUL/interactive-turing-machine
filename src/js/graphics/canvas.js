@@ -2,9 +2,10 @@ import State from './state'
 
 export default class Canvas {
 
-  constructor(){
+  constructor(turingMachine=null){
     this.id = 0;
     this.stage = new createjs.Stage("canvas");
+    this.turingMachine = turingMachine;
     this.stage.on("stagemousedown", (event) => {
       if(!event.relatedTarget){
         this.addState(this.id++, event.stageX, event.stageY);
@@ -13,7 +14,11 @@ export default class Canvas {
   }
 
   addState(id, x, y){
-    const state = new State(id);
+    if(this.turingMachine){
+      this.turingMachine.addState(id);
+    }
+
+    const state = new State(id, this);
 
     state.x = x;
     state.y = y;
