@@ -20,7 +20,13 @@ export default class Canvas {
 
     guistate.addEventListener("click", (event) => {
       if(!guistate.dragging){
+
+        const prev_state_str = TerminalStateType.toString(state.terminalState);
         state.terminalState = TerminalStateType.nextState(state.terminalState);
+        const new_state_str = TerminalStateType.toString(state.terminalState);
+
+        console.log("Changed State with id " + id + " from terminal type " + prev_state_str + " to " + new_state_str);
+
         guistate.updateColour()
       }
 

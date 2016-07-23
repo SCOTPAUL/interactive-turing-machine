@@ -1,5 +1,6 @@
 export var TerminalStateType = {
   state_types:[1,2,3],
+  str_state_types:['nonterminal', 'success', 'failure'],
   get NONTERMINAL(){
     return this.state_types[0]
   },
@@ -11,9 +12,11 @@ export var TerminalStateType = {
   },
   nextState: function(current_state){
     return this.state_types[current_state % this.state_types.length]
+  },
+  toString: function(current_state){
+    return this.str_state_types[current_state - 1];
   }
 };
-
 
 
 export class State {

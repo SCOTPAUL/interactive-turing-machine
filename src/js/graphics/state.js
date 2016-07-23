@@ -40,8 +40,6 @@ class GUIState extends createjs.Container {
 
   }
 
-
-
   updateColour(){
     const state_type = this.state.terminalState;
     const colour = StateColours[state_type];
