@@ -15,6 +15,7 @@ export class TuringMachine {
       var new_state = new state_machine.State(id);
       this.states.set(id, new_state);
       console.log("Set state with id " + id);
+      return new_state;
     }
 
     addTerminalState(id, termination_type){

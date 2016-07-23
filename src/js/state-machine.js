@@ -1,8 +1,20 @@
 export var TerminalStateType = {
-  NONTERMINAL:1,
-  SUCCESS:2,
-  FAILURE:3,
+  state_types:[1,2,3],
+  get NONTERMINAL(){
+    return this.state_types[0]
+  },
+  get SUCCESS(){
+    return this.state_types[1]
+  },
+  get FAILURE(){
+    return this.state_types[2]
+  },
+  nextState: function(current_state){
+    return this.state_types[current_state % this.state_types.length]
+  }
 };
+
+
 
 export class State {
     constructor(id, terminalState=TerminalStateType.NONTERMINAL){

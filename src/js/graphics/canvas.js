@@ -1,8 +1,8 @@
-import State from './state'
+import GUIState from './state'
+import {TerminalStateType} from '../state-machine'
 
 export default class Canvas {
-
-  constructor(turingMachine=null){
+  constructor(turingMachine){
     this.id = 0;
     this.stage = new createjs.Stage("canvas");
     this.turingMachine = turingMachine;
@@ -14,16 +14,23 @@ export default class Canvas {
   }
 
   addState(id, x, y){
-    if(this.turingMachine){
-      this.turingMachine.addState(id);
-    }
+    const state = this.turingMachine.addState(id);
 
-    const state = new State(id, this);
+    const guistate = new GUIState(state, this);
 
-    state.x = x;
-    state.y = y;
+    guistate.addEventListener("click", (event) => {
+      if(!guistate.dragging){
+        state.terminalState = TerminalStateType.nextState(state.terminalState);
+        guistate.updateColour()
+      }
 
-    this.stage.addChild(state);
+      guistate.dragging = false;
+    });
+
+    guistate.x = x;
+    guistate.y = y;
+
+    this.stage.addChild(guistate);
     this.stage.update();
   }
 }
