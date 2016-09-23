@@ -1,5 +1,7 @@
-import GUIState from './state'
-import {TerminalStateType} from '../state-machine'
+import GUIState from './state';
+import GUITransition from './transition';
+import {TerminalStateType} from '../state-machine';
+import {Direction} from '../tape';
 
 export default class Canvas {
   constructor(turingMachine){
@@ -11,6 +13,13 @@ export default class Canvas {
         this.addState(this.id++, event.stageX, event.stageY);
       }
     });
+  }
+
+  addTransition(from_id, to_id, tape_move, put_char, tape_symbol){
+    const transition = this.turingMachine.addTransition(from_id, to_id, tape_move, put_char, tape_symbol);
+    const guitransition = new GUITransition(transition, this);
+
+    this.stage.addChildAt(guitransition, 0);
   }
 
   addState(id, x, y){
@@ -27,8 +36,9 @@ export default class Canvas {
 
         console.log("Changed State with id " + id + " from terminal type " + prev_state_str + " to " + new_state_str);
 
-        guistate.updateColour()
+        guistate.updateColour();
       }
+
 
       guistate.dragging = false;
     });
@@ -37,6 +47,11 @@ export default class Canvas {
     guistate.y = y;
 
     this.stage.addChild(guistate);
+
+    if(id == 2){
+      this.addTransition(0, 1, Direction.LEFT, "b", "c");
+    }
+
     this.stage.update();
   }
 }

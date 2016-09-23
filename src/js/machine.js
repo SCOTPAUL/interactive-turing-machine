@@ -1,7 +1,7 @@
 import * as state_machine from './state-machine';
 import * as tape from './tape';
-import State from './graphics/state'
-import Canvas from './graphics/canvas'
+import State from './graphics/state';
+import Canvas from './graphics/canvas';
 
 export class TuringMachine {
     constructor(tape_contents){
@@ -18,6 +18,10 @@ export class TuringMachine {
       return new_state;
     }
 
+    getState(id){
+      return this.states.get(id);
+    }
+
     addTerminalState(id, termination_type){
       this.states.set(id, new state_machine.State(id, termination_type));
       console.log("Set terminal state with id " + id);
@@ -27,9 +31,10 @@ export class TuringMachine {
       var from_state = this.states.get(from_id);
       var to_state = this.states.get(to_id);
 
-      var new_transition = new state_machine.Transition(to_state, direction, put_char, tape_symbol);
+      var new_transition = new state_machine.Transition(from_state, to_state, direction, put_char, tape_symbol);
       from_state.addOutTransition(new_transition);
       console.log("Set transition " + new_transition);
+      return new_transition;
     }
 
     run(start_id){

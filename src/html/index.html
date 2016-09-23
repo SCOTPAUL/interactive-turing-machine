@@ -4,11 +4,19 @@
     <head>
         <meta charset="utf-8"/>
         <title>Hello Babel!</title>
+        <link rel="stylesheet" type="text/css" href="../css/main.css"/>
         <script src="../../bower_components/EaselJS/lib/easeljs-0.8.2.min.js"></script>
         <script src="../../bundle.js"></script>
     </head>
     <body>
-      <h1>Test</h1>
-      <canvas id="canvas">Your browser doesn't support HTML5 canvas</canvas>
+      <div class="display">
+        <canvas id="canvas" width="800" height="500">Your browser doesn't support HTML5 canvas</canvas>
+          <div class="controls">
+            <button id="states">States</button>
+            <button id="transitions">Transitions</button>
+            <button id="run">Run</button>
+        </div>
+      </div>
+
     </body>
 </html>

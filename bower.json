@@ -14,5 +14,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "Buttons": "^2.0.0",
+    "EaselJS": "^0.8.2"
+  }
 }

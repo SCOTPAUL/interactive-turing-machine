@@ -4,19 +4,20 @@ const StateColours = {
   [TerminalStateType.NONTERMINAL]:'#058',
   [TerminalStateType.SUCCESS]:'#43d93c',
   [TerminalStateType.FAILURE]:'#fb5022'
-}
+};
 
 class GUIState extends createjs.Container {
-  constructor(state, canvas, radius=20, colour='#058'){
+  constructor(state, canvas, radius=20){
     super();
 
     this.state = state;
     this.canvas = canvas;
-    this.colour = colour;
+    this.colour = StateColours[TerminalStateType.NONTERMINAL];
     this.radius = radius;
     this.dragging = false;
 
     this.init();
+    this.state.guiElement = this;
   }
 
   init(){
@@ -35,6 +36,9 @@ class GUIState extends createjs.Container {
       this.dragging = true;
       this.x = event.stageX;
       this.y = event.stageY;
+
+      var outTransitions =
+
       this.stage.update();
     });
 
