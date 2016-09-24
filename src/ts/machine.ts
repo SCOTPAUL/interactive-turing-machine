@@ -1,21 +1,29 @@
 import * as state_machine from './state-machine';
 import * as tape from './tape';
+import {JSEvent} from "./ui/uievent";
 
 export class TuringMachine {
     private tapehead : tape.TapeHead;
     private states : state_machine.State[];
     private transitions : state_machine.Transition[];
+    private state_added_event : JSEvent<number>;
 
     constructor(tape_contents : string){
       this.tapehead = new tape.TapeHead('', tape_contents);
       this.states = [];
       this.transitions = [];
+      this.state_added_event = new JSEvent();
+    }
+
+    addStateListener(handler : (data? : number) => void){
+      this.state_added_event.addEventListener(handler);
     }
 
     addState(id : number){
       var new_state = new state_machine.State(id);
       this.states.push(new_state);
       console.log("Set state with id " + id);
+      this.state_added_event.fire(this.states.length);
       return new_state;
     }
 
@@ -44,6 +52,7 @@ export class TuringMachine {
     addTerminalState(id : number, termination_type : state_machine.TerminalStateType){
       this.states.push(new state_machine.State(id, termination_type));
       console.log("Set terminal state with id " + id);
+      this.state_added_event.fire(this.states.length);
     }
 
     addTransition(from_id : number, to_id : number, direction : tape.Direction, put_char : string, tape_symbol : string){
@@ -97,4 +106,5 @@ export class TuringMachine {
     toString(){
         console.log(this.states.toString() + " " + this.transitions.toString());
     }
+
 }
