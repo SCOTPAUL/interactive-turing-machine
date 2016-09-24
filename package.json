@@ -8,7 +8,6 @@
   "dependencies": {},
   "devDependencies": {
     "browserify": "^13.0.1",
-    "tsc": "^1.20150623.0",
     "tsify": "^1.0.7",
     "typescript": "^2.0.3"
   },
