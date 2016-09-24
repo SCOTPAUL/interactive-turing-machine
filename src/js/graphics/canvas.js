@@ -13,6 +13,34 @@ export default class Canvas {
         this.addState(this.id++, event.stageX, event.stageY);
       }
     });
+
+    const add_transition_form = document.getElementById("add_transition");
+    add_transition_form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const form = event.target;
+      var from_transition = form.children[0].value;
+      var to_transition = form.children[1].value;
+      const if_symbol = form.children[2].value;
+      const tape_move = form.children[3].value;
+      const put_symbol = form.children[4].value;
+
+      var tape_move_direction;
+      if(tape_move === "left"){
+        tape_move_direction = Direction.LEFT;
+      }
+      else {
+        tape_move_direction = Direction.RIGHT;
+      }
+
+      from_transition = Number(from_transition);
+      to_transition = Number(to_transition);
+
+
+      this.addTransition(from_transition, to_transition, tape_move_direction, put_symbol, if_symbol);
+
+      add_transition_form.reset();
+    }, false);
   }
 
   addTransition(from_id, to_id, tape_move, put_char, tape_symbol){
@@ -20,6 +48,7 @@ export default class Canvas {
     const guitransition = new GUITransition(transition, this);
 
     this.stage.addChildAt(guitransition, 0);
+    this.stage.update();
   }
 
   addState(id, x, y){
@@ -48,9 +77,18 @@ export default class Canvas {
 
     this.stage.addChild(guistate);
 
-    if(id == 2){
-      this.addTransition(0, 1, Direction.LEFT, "b", "c");
-    }
+    const from_select = document.getElementById("from_transition");
+    const to_select = document.getElementById("to_transition");
+
+    const option = document.createElement('option');
+
+    option.value = id;
+    option.text = id;
+
+    const option_clone = option.cloneNode(true);
+
+    from_select.appendChild(option);
+    to_select.appendChild(option_clone);
 
     this.stage.update();
   }

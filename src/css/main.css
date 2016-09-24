@@ -32,3 +32,11 @@ body {
 #run {
   float: right;
 }
+
+#add_transition {
+  color: #98B4C2;
+}
+
+#add_transition > input {
+  font: 100% Lucidia Console, monospace;
+}
