@@ -23,6 +23,12 @@ body {
   height: 500px;
 }
 
+#cy {
+  width: 300px;
+  height: 300px;
+  display: block;
+}
+
 #canvas {
   padding: 0;
   margin: auto;

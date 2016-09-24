@@ -1,33 +1,40 @@
-export var Direction = {
-  LEFT:1,
-  RIGHT:2,
-  STATIONARY:3
+export enum Direction {
+  LEFT=1,
+  RIGHT,
+  STATIONARY
 };
 
 export class TapeNode {
-    constructor(left, value, right){
+    public left : TapeNode | null;
+    public right : TapeNode | null;
+    public value : string;
+
+    constructor(left : TapeNode | null, value : string, right : TapeNode | null){
         this.left = left;
         this.value = value;
         this.right = right;
     }
 
-    setLeft(node){
+    setLeft(node : TapeNode){
         this.left = node;
         node.right = this;
     }
 
-    setRight(node){
+    setRight(node : TapeNode){
         this.right = node;
         node.left = this;
     }
 
     toString(){
-      return value;
+      return this.value;
     }
 }
 
 export class TapeHead {
-    constructor(blank_symbol, initial_tape_contents=""){
+    public blank_symbol : string;
+    public tape_head : TapeNode;
+
+    constructor(blank_symbol : string, initial_tape_contents=""){
         this.blank_symbol = blank_symbol;
         this.tape_head = new TapeNode(null, blank_symbol, null);
 
@@ -44,24 +51,24 @@ export class TapeHead {
       return this.tape_head.value;
     }
 
-    write(tape_symbol){
+    write(tape_symbol : string){
       this.tape_head.value = tape_symbol;
     }
 
     goLeft(){
         if(this.tape_head.left === null){
-            this.tape_head.setLeft(new TapeNode(null, this.blank_symbol, this));
+            this.tape_head.setLeft(new TapeNode(null, this.blank_symbol, this.tape_head));
         }
 
-        this.tape_head = this.tape_head.left;
+        this.tape_head = <TapeNode>this.tape_head.left;
     }
 
     goRight(){
         if(this.tape_head.right === null){
-            this.tape_head.setRight(new TapeNode(this, this.blank_symbol, null));
+            this.tape_head.setRight(new TapeNode(this.tape_head, this.blank_symbol, null));
         }
 
-        this.tape_head = this.tape_head.right;
+        this.tape_head = <TapeNode>this.tape_head.right;
     }
 
 }
