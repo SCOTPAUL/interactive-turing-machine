@@ -35,6 +35,20 @@ body {
   background-color: #98b4c2;
 }
 
+#tape {
+  width: 100%;
+  border: 1px solid black;
+  background-color: #A79F6D;
+  text-align: center;
+  border-collapse: collapse;
+  font-size: 20px;
+}
+
+.tape-box {
+  border: 1px solid black;
+}
+
+
 #run {
   float: right;
 }

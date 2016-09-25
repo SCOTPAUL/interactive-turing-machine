@@ -47,6 +47,7 @@ export class TapeHead {
         this.tape_head = temp;
     }
 
+
     read(){
       return this.tape_head.value;
     }
@@ -69,6 +70,34 @@ export class TapeHead {
         }
 
         this.tape_head = <TapeNode>this.tape_head.right;
+    }
+
+    getElementsWithRadius(radius : number){
+      if(radius <= 0){
+        return [];
+      }
+
+      const orig_head = this.tape_head;
+      const ret : string[] = [];
+      ret.push(orig_head.value);
+
+
+      for(let i = 1; i < radius; ++i){
+        this.goRight();
+        ret.push(this.read());
+      }
+
+      this.tape_head = orig_head;
+
+      for(let i = 1; i < radius; ++i){
+        this.goLeft();
+        ret.unshift(this.read());
+      }
+
+      this.tape_head = orig_head;
+
+      return ret;
+
     }
 
 }

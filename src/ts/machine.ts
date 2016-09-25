@@ -7,12 +7,25 @@ export class TuringMachine {
     private states : state_machine.State[];
     private transitions : state_machine.Transition[];
     private state_added_event : JSEvent<number>;
+    private tape_changed_event : JSEvent<string[]>;
 
     constructor(tape_contents : string){
-      this.tapehead = new tape.TapeHead('', tape_contents);
+      this.tapehead = new tape.TapeHead('_', tape_contents);
+
       this.states = [];
       this.transitions = [];
       this.state_added_event = new JSEvent();
+      this.tape_changed_event = new JSEvent();
+
+    }
+
+    fireAllEvents(){
+      this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
+      this.state_added_event.fire(this.states.length);
+    }
+
+    addTapeChangeListener(handler : (data? : string[]) => void){
+      this.tape_changed_event.addEventListener(handler);
     }
 
     addStateListener(handler : (data? : number) => void){
@@ -99,6 +112,8 @@ export class TuringMachine {
       else if(transition.tape_move === tape.Direction.RIGHT){
         this.tapehead.goRight();
       }
+
+      this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
 
       return transition.to_state;
     }

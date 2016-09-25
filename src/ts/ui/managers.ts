@@ -1,13 +1,16 @@
 import {TuringMachine} from "../machine"
 import {Direction} from "../tape"
+import {UITapeManager} from "./tape";
 
 export class UIHandler {
   private machine : TuringMachine;
   private trans_handler : TransformUIHandler;
+  private tape_manager : UITapeManager;
 
   constructor(machine : TuringMachine){
     this.machine = machine;
     this.trans_handler = new TransformUIHandler(machine);
+    this.tape_manager = new UITapeManager(machine);
   }
 
 }

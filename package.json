@@ -9,13 +9,15 @@
   "devDependencies": {
     "browserify": "^13.0.1",
     "tsify": "^1.0.7",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.3",
+    "watchify": "^3.7.0"
   },
   "optionalDependencies": {},
   "engines": {
     "node": "*"
   },
   "scripts": {
-    "build": "browserify src/ts/main.ts -p [ tsify ] > bundle.js"
+    "build": "browserify src/ts/main.ts -p [ tsify ] > bundle.js",
+    "watch": "watchify src/ts/main.ts -p [ tsify ] -o bundle.js"
   }
 }
