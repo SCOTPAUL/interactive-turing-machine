@@ -10,6 +10,8 @@ function init(){
   var initial_node = machine.addState(0);
 
   machine.ready();
+
+  machine.addState(1);
 }
 
 document.addEventListener("DOMContentLoaded", function(event){

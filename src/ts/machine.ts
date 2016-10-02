@@ -19,6 +19,14 @@ export class TuringMachine {
 
     }
 
+    getTransitions(){
+      return this.transitions;
+    }
+
+    getStates(){
+      return this.states;
+    }
+
     ready(){
       this.state_added_event.fire(this.states.length);
       this.tape_changed_event.fire(this.getTapeElementsWithRadius(3));

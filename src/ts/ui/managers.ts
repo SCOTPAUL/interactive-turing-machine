@@ -1,16 +1,35 @@
 import {TuringMachine} from "../machine"
 import {Direction} from "../tape"
 import {UITapeManager} from "./tape";
+import {UIRenderer} from "./renderers";
+
+declare var cytoscape : any;
+
+export class GraphManager {
+  private machine : TuringMachine;
+  private cyInstance : any;
+  private renderer : UIRenderer;
+
+  constructor(machine : TuringMachine){
+    this.machine = machine;
+    this.renderer = new UIRenderer(machine);
+    this.cyInstance = cytoscape(this.renderer.render());
+
+    this.machine.addStateListener((unused) => this.cyInstance = cytoscape(this.renderer.render()));
+  }
+}
 
 export class UIHandler {
   private machine : TuringMachine;
   private trans_handler : TransformUIHandler;
   private tape_manager : UITapeManager;
+  private graph_manager : GraphManager;
 
   constructor(machine : TuringMachine){
     this.machine = machine;
     this.trans_handler = new TransformUIHandler(machine);
     this.tape_manager = new UITapeManager(machine);
+    this.graph_manager = new GraphManager(machine);
   }
 
 }
