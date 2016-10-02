@@ -4,12 +4,23 @@ export class UITapeManager {
   private machine : TuringMachine;
   private tape_nodes : NodeList;
 
+  private tape_left_control : HTMLButtonElement;
+  private tape_right_control : HTMLButtonElement;
+
   constructor(machine : TuringMachine){
     this.machine = machine;
     this.tape_nodes = document.querySelectorAll(".tape-box");
 
-    this.machine.addTapeChangeListener((tape_contents) => {
+    this.tape_left_control = <HTMLButtonElement> document.getElementById("tape-left");
+    this.tape_right_control = <HTMLButtonElement> document.getElementById("tape-right");
 
+    this.tape_left_control.onclick = (e) => this.machine.moveTapeLeft();
+    this.tape_right_control.onclick = (e) => this.machine.moveTapeRight();
+
+    this.machine.addTapeChangeListener((nodes) => this.render(nodes));
+  }
+
+  render(tape_contents : string[] | undefined){
       if(tape_contents === undefined){
         return;
       }
@@ -21,7 +32,5 @@ export class UITapeManager {
         (<HTMLTableCellElement>curr_node).innerText = curr_str;
 
       }
-    });
-
   }
 }

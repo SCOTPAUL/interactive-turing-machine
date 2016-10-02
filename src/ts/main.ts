@@ -7,12 +7,9 @@ import {UIHandler} from "./ui/managers";
 function init(){
   var machine = new TuringMachine("1");
   var ui_handler = new UIHandler(machine);
-  machine.fireAllEvents();
-
   var initial_node = machine.addState(0);
 
-
-
+  machine.ready();
 }
 
 document.addEventListener("DOMContentLoaded", function(event){

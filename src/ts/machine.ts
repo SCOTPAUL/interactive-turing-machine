@@ -19,9 +19,24 @@ export class TuringMachine {
 
     }
 
-    fireAllEvents(){
-      this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
+    ready(){
       this.state_added_event.fire(this.states.length);
+      this.tape_changed_event.fire(this.getTapeElementsWithRadius(3));
+      console.log("Turing machine is now ready");
+    }
+
+    getTapeElementsWithRadius(radius : number){
+      return this.tapehead.getElementsWithRadius(radius);
+    }
+
+    moveTapeLeft(){
+      this.tapehead.goLeft();
+      this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
+    }
+
+    moveTapeRight(){
+      this.tapehead.goRight();
+      this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
     }
 
     addTapeChangeListener(handler : (data? : string[]) => void){

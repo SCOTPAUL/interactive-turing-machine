@@ -35,8 +35,25 @@ body {
   background-color: #98b4c2;
 }
 
-#tape {
+#tape-container {
   width: 100%;
+  display: inline-block;
+}
+
+.tape-direction {
+  width: 10%;
+}
+
+#tape-left {
+  float: left;
+}
+
+#tape-right {
+  float: right;
+}
+
+#tape {
+  width: 80%;
   border: 1px solid black;
   background-color: #A79F6D;
   text-align: center;
