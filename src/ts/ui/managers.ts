@@ -15,7 +15,9 @@ export class GraphManager {
     this.renderer = new UIRenderer(machine);
     this.cyInstance = cytoscape(this.renderer.render());
 
-    this.machine.addStateListener((unused) => this.cyInstance = cytoscape(this.renderer.render()));
+    this.machine.addStateListener(() => this.cyInstance = cytoscape(this.renderer.render()));
+    this.machine.addTapeChangeListener(() => this.cyInstance = cytoscape(this.renderer.render()));
+    this.machine.addTransitionsListener(() => this.cyInstance = cytoscape(this.renderer.render()));
   }
 }
 
@@ -76,9 +78,16 @@ class TransformUIHandler {
       add_transition_form.reset();
     }, false);
 
-
+    let prev_highest_id = -1;
     this.machine.addStateListener((length) => {
       const id = length - 1;
+
+      if(id > prev_highest_id){
+        prev_highest_id = id;
+      }
+      else if(prev_highest_id >= id){
+        return;
+      }
 
       const from_select = document.getElementById("from_transition");
       const to_select = document.getElementById("to_transition");

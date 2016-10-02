@@ -24,7 +24,8 @@ body {
 }
 
 #cy {
-  width: 300px;
+  width: 100%;
+  background-color: white;
   height: 300px;
   display: block;
 }

@@ -1,4 +1,4 @@
-import {State, Transition} from "../state-machine";
+import {State, Transition, TerminalStateType} from "../state-machine";
 import {TuringMachine} from "../machine";
 
 interface Renderable {
@@ -22,7 +22,9 @@ export class UIRenderer implements Renderable {
       elements.push(new UIState(state).render());
     }
 
+    console.log(this.machine.getTransitions());
     for(let transition of this.machine.getTransitions()){
+      console.log("Rendering transition");
       elements.push(new UITransition(transition).render());
     }
 
@@ -34,8 +36,28 @@ export class UIRenderer implements Renderable {
         {
           selector: 'node',
           style: {
-            'background-color': '#666',
             'label': 'data(id)'
+          }
+        },
+
+        {
+        selector: 'node.nonterminal',
+          style: {
+            'background-color': '#356AC3'
+          }
+        },
+
+        {
+        selector: 'node.failure',
+          style: {
+            'background-color': '#800000'
+          }
+        },
+
+        {
+        selector: 'node.success',
+          style: {
+            'background-color': '#4BC51D'
           }
         },
 
@@ -43,9 +65,9 @@ export class UIRenderer implements Renderable {
           selector: 'edge',
           style: {
             'width': 3,
-            'line-color': '#ccc',
-            'target-arrow-color': '#ccc',
-            'target-arrow-shape': 'triangle'
+            'line-color': '#4BC51D',
+            'mid-target-arrow-color': '#4BC51D',
+            'mid-target-arrow-shape': 'triangle'
           }
         }
       ],
@@ -70,8 +92,22 @@ class UIState implements Renderable {
     this.state = state;
   }
 
+  getClass(){
+    const terminal_state_type = this.state.terminalState;
+
+    if(terminal_state_type == TerminalStateType.NONTERMINAL){
+      return "nonterminal";
+    }
+    else if(terminal_state_type == TerminalStateType.SUCCESS){
+      return "success"
+    }
+    else {
+      return "failure";
+    }
+  }
+
   render(){
-    return { data:{ id: this.state.id } }
+    return { data:{ id: this.state.id }, classes: this.getClass() }
   }
 
 }

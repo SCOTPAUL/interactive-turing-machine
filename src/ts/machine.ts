@@ -8,6 +8,7 @@ export class TuringMachine {
     private transitions : state_machine.Transition[];
     private state_added_event : JSEvent<number>;
     private tape_changed_event : JSEvent<string[]>;
+    private transition_added_event : JSEvent<number>;
 
     constructor(tape_contents : string){
       this.tapehead = new tape.TapeHead('_', tape_contents);
@@ -16,6 +17,7 @@ export class TuringMachine {
       this.transitions = [];
       this.state_added_event = new JSEvent();
       this.tape_changed_event = new JSEvent();
+      this.transition_added_event = new JSEvent();
 
     }
 
@@ -53,6 +55,10 @@ export class TuringMachine {
 
     addStateListener(handler : (data? : number) => void){
       this.state_added_event.addEventListener(handler);
+    }
+
+    addTransitionsListener(handler : (data? : number) => void){
+      this.transition_added_event.addEventListener(handler);
     }
 
     addState(id : number){
@@ -99,8 +105,10 @@ export class TuringMachine {
         return null;
       }
 
-      var new_transition = new state_machine.Transition(from_state, to_state, direction, put_char, tape_symbol);
+      const new_transition = new state_machine.Transition(from_state, to_state, direction, put_char, tape_symbol);
       console.log("Set transition " + new_transition);
+      this.transitions.push(new_transition);
+      this.transition_added_event.fire(this.transitions.length);
       return new_transition;
     }
 

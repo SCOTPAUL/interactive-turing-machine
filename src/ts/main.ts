@@ -12,6 +12,7 @@ function init(){
   machine.ready();
 
   machine.addState(1);
+  machine.addTerminalState(2, state_machine.TerminalStateType.SUCCESS);
 }
 
 document.addEventListener("DOMContentLoaded", function(event){

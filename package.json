@@ -7,6 +7,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "browser-sync": "^2.17.0",
     "browserify": "^13.0.1",
     "tsify": "^1.0.7",
     "typescript": "^2.0.3",
@@ -18,6 +19,7 @@
   },
   "scripts": {
     "build": "browserify src/ts/main.ts -p [ tsify ] > bundle.js",
-    "watch": "watchify src/ts/main.ts -p [ tsify ] -o bundle.js"
+    "watch": "watchify src/ts/main.ts -p [ tsify ] -o bundle.js",
+    "sync": "browser-sync start -s --index index.html --startPath src/html/ -f bundle.js src/html/* src/css/* --no-inject-changes & npm run watch"
   }
 }
