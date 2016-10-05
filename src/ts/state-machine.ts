@@ -41,6 +41,18 @@ export class Transition {
       }
 
       toString(){
-        return this.from_state + " -> " + this.to_state + ", put " + this.put_char + " if " + this.tape_symbol;
+        let direction_symbol : string;
+
+        if(this.tape_move === Direction.LEFT){
+          direction_symbol = "L";
+        }
+        else if(this.tape_move === Direction.RIGHT){
+          direction_symbol = "R";
+        }
+        else {
+          direction_symbol = "S";
+        }
+
+        return this.tape_symbol + "/" + this.put_char + "," + direction_symbol;
       }
 }

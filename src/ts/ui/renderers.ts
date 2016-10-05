@@ -64,10 +64,12 @@ export class UIRenderer implements Renderable {
         {
           selector: 'edge',
           style: {
-            'width': 3,
+            'curve-style': 'bezier',
+            'width': 5,
             'line-color': '#4BC51D',
             'mid-target-arrow-color': '#4BC51D',
-            'mid-target-arrow-shape': 'triangle'
+            'mid-target-arrow-shape': 'triangle',
+            'label': 'data(desc)'
           }
         }
       ],
@@ -126,7 +128,8 @@ class UITransition implements Renderable {
     return {
       data:{ id: transition_id,
             source: this.transition.from_state.id.toString(),
-            target: this.transition.to_state.id.toString()
+            target: this.transition.to_state.id.toString(),
+            desc: this.transition.toString()
           }
         }
   }

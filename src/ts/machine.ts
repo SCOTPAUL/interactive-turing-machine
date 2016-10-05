@@ -61,8 +61,8 @@ export class TuringMachine {
       this.transition_added_event.addEventListener(handler);
     }
 
-    addState(id : number){
-      var new_state = new state_machine.State(id);
+    addState(id = this.states.length) {
+      const new_state = new state_machine.State(id);
       this.states.push(new_state);
       console.log("Set state with id " + id);
       this.state_added_event.fire(this.states.length);
@@ -91,10 +91,18 @@ export class TuringMachine {
       return null;
     }
 
-    addTerminalState(id : number, termination_type : state_machine.TerminalStateType){
-      this.states.push(new state_machine.State(id, termination_type));
+    addTerminalState(termination_type : state_machine.TerminalStateType) : state_machine.State;
+    addTerminalState(id : number, termination_type : state_machine.TerminalStateType) : state_machine.State;
+    addTerminalState(termination_type : state_machine.TerminalStateType, id? : number){
+      if(id === undefined){
+        id = this.states.length;
+      }
+
+      const new_state = new state_machine.State(id, termination_type);
+      this.states.push(new_state);
       console.log("Set terminal state with id " + id);
       this.state_added_event.fire(this.states.length);
+      return new_state;
     }
 
     addTransition(from_id : number, to_id : number, direction : tape.Direction, put_char : string, tape_symbol : string){
