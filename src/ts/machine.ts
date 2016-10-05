@@ -120,7 +120,7 @@ export class TuringMachine {
       return new_transition;
     }
 
-    run(start_id : number){
+    run(start_id = 0){
       var start_state = this.getState(start_id);
       var current_state = start_state;
 
@@ -144,13 +144,13 @@ export class TuringMachine {
         return null;
       }
 
-      this.tapehead.write(transition.put_char);
       if(transition.tape_move === tape.Direction.LEFT){
         this.tapehead.goLeft();
       }
       else if(transition.tape_move === tape.Direction.RIGHT){
         this.tapehead.goRight();
       }
+      this.tapehead.write(transition.put_char);
 
       this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
 

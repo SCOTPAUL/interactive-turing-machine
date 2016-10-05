@@ -51,10 +51,12 @@ class UIStateHandler{
     const add_nonterm_state = <HTMLButtonElement> document.getElementById("add-nonterm-state");
     const add_success_state = <HTMLButtonElement> document.getElementById("add-success-state");
     const add_fail_state = <HTMLButtonElement> document.getElementById("add-failure-state");
+    const run = <HTMLButtonElement> document.getElementById("run");
 
     add_nonterm_state.onclick = (e) => this.machine.addState();
     add_success_state.onclick = (e) => this.machine.addTerminalState(TerminalStateType.SUCCESS);
     add_fail_state.onclick = (e) => this.machine.addTerminalState(TerminalStateType.FAILURE);
+    run.onclick = (e) => this.machine.run();
   }
 }
 
