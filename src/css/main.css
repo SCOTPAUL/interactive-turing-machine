@@ -78,3 +78,11 @@ body {
 #add_transition > input {
   font: 100% Lucidia Console, monospace;
 }
+
+#result {
+  background-color: black;
+  font-family: sans-serif;
+  text-align: center;
+  color: white;
+  width: 100%;
+}

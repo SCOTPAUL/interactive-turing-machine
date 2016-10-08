@@ -5,14 +5,13 @@ import {UIHandler} from "./ui/managers";
 
 
 function init(){
-  var machine = new TuringMachine("1");
+  var machine = new TuringMachine();
   var ui_handler = new UIHandler(machine);
   var initial_node = machine.addState(0);
 
   machine.ready();
 
-  machine.addState(1);
-  machine.addTerminalState(2, state_machine.TerminalStateType.SUCCESS);
+  machine.addTerminalState(state_machine.TerminalStateType.SUCCESS);
 }
 
 document.addEventListener("DOMContentLoaded", function(event){

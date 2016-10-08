@@ -17,7 +17,7 @@ export class GraphManager {
     this.cyInstance = cytoscape(this.renderer.render());
 
     this.machine.addStateListener(() => this.addElems());
-    this.machine.addTransitionsListener(() => this.addElems());
+    this.machine.addTransitionsListener(() => this.cyInstance.add(this.renderer.render()));
     this.machine.addCurrentStateChangeListener((t) => this.updateCurrentState(t));
   }
 
@@ -52,6 +52,14 @@ export class UIHandler {
     this.tape_manager = new UITapeManager(machine);
     this.graph_manager = new GraphManager(machine);
     this.state_adding_manager = new UIStateHandler(machine);
+
+    const delay_slider = <HTMLInputElement>document.getElementById("delay");
+    const delay_ui = <HTMLElement>document.getElementById("delay-show");
+    delay_ui.innerText = (Number(delay_slider.value) / 1000).toString() + "s";
+
+    delay_slider.oninput = (e) => {
+      delay_ui.innerText = (Number(delay_slider.value) / 1000).toString() + "s";
+    };
   }
 
 }

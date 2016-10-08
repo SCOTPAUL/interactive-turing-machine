@@ -11,7 +11,7 @@ export class TuringMachine {
     private transition_added_event : JSEvent<number>;
     private current_state_changed_event : JSEvent<state_machine.Transition>;
 
-    constructor(tape_contents : string){
+    constructor(tape_contents = ""){
       this.tapehead = new tape.TapeHead('_', tape_contents);
 
       this.states = [];
@@ -135,30 +135,37 @@ export class TuringMachine {
         return;
       }
 
-      this.step(current_state, function(finish_state : state_machine.State | null){
+      const delayMs = Number((<HTMLInputElement>document.getElementById("delay")).value);
+
+      this.step(current_state, delayMs, function(finish_state : state_machine.State | null){
         console.log(finish_state);
+
+        let str_termtype : string;
 
         if(finish_state === null){
           console.log("Error, invalid state transition");
+          str_termtype = "Error";
         }
         else {
-          let str_termtype : string;
-
           if(finish_state.terminalState == state_machine.TerminalStateType.SUCCESS){
-            str_termtype = "success";
+            str_termtype = "Success";
           }
           else {
-            str_termtype = "failure";
+            str_termtype = "Failure";
           }
 
           console.log("Terminated with state " + str_termtype);
         }
+
+        const resultDiv = <HTMLDivElement>document.getElementById("result");
+        resultDiv.innerText = str_termtype;
+
       });
 
 
     }
 
-    step(start_state : state_machine.State, finish_callback: (final_state : state_machine.State | null) => void){
+    step(start_state : state_machine.State, delay : number, finish_callback: (final_state : state_machine.State | null) => void){
       console.log("Starting step");
 
       const tape_symbol = this.tapehead.read();
@@ -182,7 +189,7 @@ export class TuringMachine {
       this.current_state_changed_event.fire(transition);
 
       if(transition.to_state !== null && !transition.to_state.isTerminal()){
-        window.setTimeout(() => this.step(transition.to_state, finish_callback), 1000);
+        window.setTimeout(() => this.step(transition.to_state, delay, finish_callback), delay);
       }
       else {
         console.log("Finishing up with state " + transition.to_state)
