@@ -9,6 +9,7 @@ export class TuringMachine {
     private state_added_event : JSEvent<number>;
     private tape_changed_event : JSEvent<string[]>;
     private transition_added_event : JSEvent<number>;
+    private current_state_changed_event : JSEvent<state_machine.Transition>;
 
     constructor(tape_contents : string){
       this.tapehead = new tape.TapeHead('_', tape_contents);
@@ -17,6 +18,7 @@ export class TuringMachine {
       this.transitions = [];
       this.state_added_event = new JSEvent();
       this.tape_changed_event = new JSEvent();
+      this.current_state_changed_event = new JSEvent();
       this.transition_added_event = new JSEvent();
 
     }
@@ -49,6 +51,10 @@ export class TuringMachine {
       this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
     }
 
+    addCurrentStateChangeListener(handler : (data : state_machine.Transition) => void){
+      this.current_state_changed_event.addEventListener(handler);
+    }
+
     addTapeChangeListener(handler : (data? : string[]) => void){
       this.tape_changed_event.addEventListener(handler);
     }
@@ -75,6 +81,7 @@ export class TuringMachine {
       for(let tmp of this.transitions){
         if(tmp.from_state.id === id && tmp.tape_symbol === tape_symbol){
           result = tmp;
+          break;
         }
       }
 
@@ -124,19 +131,36 @@ export class TuringMachine {
       var start_state = this.getState(start_id);
       var current_state = start_state;
 
-      while(current_state !== null && !current_state.isTerminal()){
-        current_state = this.step(current_state);
+      if(current_state === null){
+        return;
       }
 
-      if(current_state === null){
-        console.log("Error, invalid state transition");
-      }
-      else {
-        console.log("Terminated with state " + current_state.terminalState);
-      }
+      this.step(current_state, function(finish_state : state_machine.State | null){
+        console.log(finish_state);
+
+        if(finish_state === null){
+          console.log("Error, invalid state transition");
+        }
+        else {
+          let str_termtype : string;
+
+          if(finish_state.terminalState == state_machine.TerminalStateType.SUCCESS){
+            str_termtype = "success";
+          }
+          else {
+            str_termtype = "failure";
+          }
+
+          console.log("Terminated with state " + str_termtype);
+        }
+      });
+
+
     }
 
-    step(start_state : state_machine.State){
+    step(start_state : state_machine.State, finish_callback: (final_state : state_machine.State | null) => void){
+      console.log("Starting step");
+
       const tape_symbol = this.tapehead.read();
       const transition = this.getOutTransition(start_state.id, tape_symbol);
 
@@ -154,7 +178,16 @@ export class TuringMachine {
 
       this.tape_changed_event.fire(this.tapehead.getElementsWithRadius(3));
 
-      return transition.to_state;
+      console.log("Stepping to " + transition.to_state);
+      this.current_state_changed_event.fire(transition);
+
+      if(transition.to_state !== null && !transition.to_state.isTerminal()){
+        window.setTimeout(() => this.step(transition.to_state, finish_callback), 1000);
+      }
+      else {
+        console.log("Finishing up with state " + transition.to_state)
+        finish_callback.call(this, transition.to_state);
+      }
     }
 
     toString(){

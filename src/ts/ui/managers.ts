@@ -1,5 +1,5 @@
 import {TuringMachine} from "../machine"
-import {TerminalStateType} from "../state-machine";
+import {TerminalStateType, State, Transition} from "../state-machine";
 import {Direction} from "../tape"
 import {UITapeManager} from "./tape";
 import {UIRenderer} from "./renderers";
@@ -16,9 +16,26 @@ export class GraphManager {
     this.renderer = new UIRenderer(machine);
     this.cyInstance = cytoscape(this.renderer.render());
 
-    this.machine.addStateListener(() => this.cyInstance = cytoscape(this.renderer.render()));
-    this.machine.addTapeChangeListener(() => this.cyInstance = cytoscape(this.renderer.render()));
-    this.machine.addTransitionsListener(() => this.cyInstance = cytoscape(this.renderer.render()));
+    this.machine.addStateListener(() => this.addElems());
+    this.machine.addTransitionsListener(() => this.addElems());
+    this.machine.addCurrentStateChangeListener((t) => this.updateCurrentState(t));
+  }
+
+  updateCurrentState(trans : Transition){
+    const old_id = trans.from_state.id;
+    const new_id = trans.to_state.id;
+
+    const from_elem = this.cyInstance.getElementById(old_id);
+    const to_elem = this.cyInstance.getElementById(new_id);
+
+    from_elem.removeClass('current');
+    to_elem.addClass('current');
+  }
+
+  addElems(){
+    const new_elems = this.renderer.render();
+    this.cyInstance.add(new_elems);
+    this.cyInstance.layout({name: 'grid'});
   }
 }
 

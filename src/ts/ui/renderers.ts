@@ -7,9 +7,12 @@ interface Renderable {
 
 export class UIRenderer implements Renderable {
   private machine : TuringMachine;
+  private hasRendered : boolean;
+  private elementPrev : Object[];
 
   constructor(machine : TuringMachine){
     this.machine = machine;
+    this.hasRendered = false;
   }
 
   render(){
@@ -28,56 +31,79 @@ export class UIRenderer implements Renderable {
       elements.push(new UITransition(transition).render());
     }
 
-    const rendering = {
-      container: container,
-      elements: elements,
+    let rendering : Object;
 
-      style: [
-        {
-          selector: 'node',
-          style: {
-            'label': 'data(id)'
+    if(!this.hasRendered){
+      this.hasRendered = true;
+      this.elementPrev = elements;
+      rendering = {
+        container: container,
+        elements: elements,
+
+        style: [
+          {
+            selector: 'node',
+            style: {
+              'label': 'data(id)'
+            }
+          },
+
+          {
+          selector: 'node.nonterminal',
+            style: {
+              'background-color': '#356AC3'
+            }
+          },
+
+          {
+          selector: 'node.failure',
+            style: {
+              'background-color': '#800000'
+            }
+          },
+
+          {
+          selector: 'node.success',
+            style: {
+              'background-color': '#4BC51D'
+            }
+          },
+          
+          {
+          selector: 'node.current',
+            style: {
+              'background-color': 'yellow'
+            }
+          },
+
+          {
+            selector: 'edge',
+            style: {
+              'curve-style': 'bezier',
+              'width': 5,
+              'line-color': '#4BC51D',
+              'mid-target-arrow-color': '#4BC51D',
+              'mid-target-arrow-shape': 'triangle',
+              'label': 'data(desc)',
+              'visibility': 'visible',
+              'display': 'element'
+            }
           }
+        ],
+
+        layout: {
+          name: 'grid'
         },
 
-        {
-        selector: 'node.nonterminal',
-          style: {
-            'background-color': '#356AC3'
-          }
-        },
-
-        {
-        selector: 'node.failure',
-          style: {
-            'background-color': '#800000'
-          }
-        },
-
-        {
-        selector: 'node.success',
-          style: {
-            'background-color': '#4BC51D'
-          }
-        },
-
-        {
-          selector: 'edge',
-          style: {
-            'curve-style': 'bezier',
-            'width': 5,
-            'line-color': '#4BC51D',
-            'mid-target-arrow-color': '#4BC51D',
-            'mid-target-arrow-shape': 'triangle',
-            'label': 'data(desc)'
-          }
-        }
-      ],
-
-      layout: {
-        name: 'grid',
-        rows: 1
+        zoomingEnabled: false,
+        panningEnabled: false
       }
+    }
+    else {
+      const elem_difference = elements.filter(e => this.elementPrev.indexOf(e) == -1);
+      rendering = elem_difference;
+      this.elementPrev = elements;
+
     }
 
     console.log(rendering);
@@ -109,27 +135,36 @@ class UIState implements Renderable {
   }
 
   render(){
-    return { data:{ id: this.state.id }, classes: this.getClass() }
+    return {
+      group: "nodes",
+      data:{ id: this.state.id },
+      classes: this.getClass(),
+    }
   }
 
 }
 
 class UITransition implements Renderable {
   private transition : Transition;
+  private static count : number = 0;
 
   constructor(transition : Transition){
     this.transition = transition;
   }
 
   render(){
-    const transition_id = this.transition.from_state.id.toString() +
+    UITransition.count++;
+
+    const transition_id = this.transition + "-" +
+                          this.transition.from_state.id.toString() +
                           this.transition.to_state.id.toString();
 
     return {
+      group: "edges",
       data:{ id: transition_id,
-            source: this.transition.from_state.id.toString(),
-            target: this.transition.to_state.id.toString(),
-            desc: this.transition.toString()
+             source: this.transition.from_state.id.toString(),
+             target: this.transition.to_state.id.toString(),
+             desc: this.transition.toString()
           }
         }
   }
