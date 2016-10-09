@@ -5,7 +5,9 @@
   "repository": {
     "url": ""
   },
-  "dependencies": {},
+  "dependencies": {
+    "skeleton-css": "^2.0.4"
+  },
   "devDependencies": {
     "browser-sync": "^2.17.0",
     "browserify": "^13.0.1",

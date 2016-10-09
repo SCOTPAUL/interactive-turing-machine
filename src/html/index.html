@@ -1,59 +1,71 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Hello Babel!</title>
-        <link rel="stylesheet" type="text/css" href="../css/main.css"/>
-        <script src="../../bower_components/cytoscape/dist/cytoscape.min.js"></script>
-        <script src="../../bundle.js"></script>
-    </head>
-    <body>
-      <div class="display">
 
-        <form id="add_transition">
-          Transition from
-          <select id="from_transition">
-          </select>
-          to
-          <select id="to_transition">
-          </select>
-          if <input type="text" id="if_symbol" maxlength="1" size="1" value="_"/>
-          , then move tape
-          <select id="tape_move">
-            <option value="left">Left</option>
-            <option value="right">Right</option>
-          </select>
-          and put <input type="text" id="put_symbol" maxlength="1" size="1" value="_"/>.
-          <br/>
-          <button type="submit">Add transition</button>
-        </form>
+<head>
+    <meta charset="utf-8" />
+    <title>Hello Babel!</title>
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../../node_modules/skeleton-css/css/skeleton.css" />
+    <script src="../../bower_components/cytoscape/dist/cytoscape.min.js"></script>
 
-        <div id="cy"></div>
+    <script src="../../bundle.js"></script>
+</head>
 
-        <div id="tape-container">
-          <button class="tape-direction" id="tape-left"><<</button>
-          <button class="tape-direction" id="tape-right">>></button>
-          <table id="tape">
-            <td class="tape-box">1</td>
-            <td class="tape-box">2</td>
-            <td class="tape-box">3</td>
-            <td class="tape-box">4</td>
-            <td class="tape-box">5</td>
-          </table>
+<body>
+    <div class="container">
+
+        <div class="row">
+            <div id="cy"></div>
         </div>
 
-          <div class="controls">
-            <button class="add-state" id="add-nonterm-state">Add nonterminal state</button>
-            <button class="add-state" id="add-success-state">Add success state</button>
-            <button class="add-state" id="add-failure-state">Add failure state</button>
-            <input id="delay" type="range" min="0" max="5000" />
-            <span id="delay-show"></span>
-            <button id="run">Run</button>
-        </div>
-        <div id="result">
-        </div>
-      </div>
 
-    </body>
+        <div class="row">
+            <table id="tape">
+                <td class="tape-box">1</td>
+                <td class="tape-box">2</td>
+                <td class="tape-box">3</td>
+                <td class="tape-box">4</td>
+                <td class="tape-box">5</td>
+            </table>
+        </div>
+        <div class="row">
+          <div id="result"></div>
+        </div>
+        <div class="row">
+            <button class="button-primary tape-direction" id="tape-left"><<</button>
+            <button class="button-primary tape-direction" id="tape-right">>></button>
+        </div>
+
+        <div class="row">
+            <div class="eight columns">
+                <form id="add_transition">
+                    Transition from
+                    <select id="from_transition"></select> to
+                    <select id="to_transition"></select> if
+                    <input type="text" id="if_symbol" maxlength="1" size="1" value="_" /> , then move tape
+                    <select id="tape_move">
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                    </select> and put <input type="text" id="put_symbol" maxlength="1" size="1" value="_" />.
+                    <br/>
+                    <button class="button-primary" type="submit">Add transition</button>
+                </form>
+            </div>
+
+            <div class="four columns">
+                <div class="controls">
+                    <button class="button-primary add-state" id="add-nonterm-state">Add nonterminal state</button>
+                    <button class="button-primary add-state" id="add-success-state">Add success state</button>
+                    <button class="button-primary add-state" id="add-failure-state">Add failure state</button>
+                    <input id="delay" type="range" min="0" max="5000" />
+                    <span id="delay-show"></span>
+                    <button class="button-primary" id="run">Run</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
 </html>

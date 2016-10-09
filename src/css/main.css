@@ -1,48 +1,38 @@
-html, body {
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
 body {
-  background-color: #2d2a26;
-  overflow: hidden;
-}
-
-.display {
-  position: absolute;
-  padding: 0;
-  margin: auto;
-  display: block;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 800px;
-  height: 500px;
+  background-color: lightgray;
 }
 
 #cy {
-  width: 100%;
   background-color: white;
-  height: 300px;
-  display: block;
+  height: 60vh;
 }
 
-#canvas {
-  padding: 0;
-  margin: auto;
-  background-color: #98b4c2;
+.backward {
+    transform: scale(-1, 1);
 }
 
-#tape-container {
+#tape {
   width: 100%;
-  display: inline-block;
+  border: 1px solid black;
+  background-color: #CCC5B5;
+  text-align: center;
+  border-collapse: collapse;
+  font-size: 20px;
 }
 
-.tape-direction {
-  width: 10%;
+.tape-box {
+  text-align: center;
+  border: 1px solid black;
+}
+
+#add-success-state, #run {
+  background-color: green;
+  border-color: green;
+}
+
+#add-failure-state {
+  background-color: red;
+  border-color: red;
 }
 
 #tape-left {
@@ -51,28 +41,6 @@ body {
 
 #tape-right {
   float: right;
-}
-
-#tape {
-  width: 80%;
-  border: 1px solid black;
-  background-color: #A79F6D;
-  text-align: center;
-  border-collapse: collapse;
-  font-size: 20px;
-}
-
-.tape-box {
-  border: 1px solid black;
-}
-
-
-#run {
-  float: right;
-}
-
-#add_transition {
-  color: #98B4C2;
 }
 
 #add_transition > input {
