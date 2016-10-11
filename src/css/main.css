@@ -48,9 +48,18 @@ body {
 }
 
 #result {
-  background-color: black;
-  font-family: sans-serif;
   text-align: center;
-  color: white;
   width: 100%;
+}
+
+#result.success {
+  color: green;
+}
+
+#result.error, #result.failure {
+  color: red;
+}
+
+.controls {
+  text-align: center;
 }

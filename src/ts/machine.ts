@@ -159,6 +159,7 @@ export class TuringMachine {
 
         const resultDiv = <HTMLDivElement>document.getElementById("result");
         resultDiv.innerText = str_termtype;
+        resultDiv.className = str_termtype.toLowerCase();
 
       });
 
