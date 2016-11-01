@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hello Babel!</title>
+    <link rel="stylesheet" type="text/css" href="src/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="node_modules/skeleton-css/css/skeleton.css" />
+    <script src="bower_components/cytoscape/dist/cytoscape.min.js"></script>
+
+    <script src="bundle.js"></script>
+</head>
+
+<body>
+
+    <div id="cy"></div>
+
+    <div class="container">
+
+        <div class="row">
+            <table id="tape">
+                <td class="tape-box">1</td>
+                <td class="tape-box">2</td>
+                <td class="tape-box">3</td>
+                <td class="tape-box">4</td>
+                <td class="tape-box">5</td>
+            </table>
+        </div>
+        <div class="row">
+            <div class="four columns">
+                <button class="button-primary tape-direction" id="tape-left"><<</button>
+            </div>
+
+            <div class="four columns">
+                <div id="result"></div>
+            </div>
+
+            <div class="four columns u-pull-right">
+                <button class="button-primary tape-direction" id="tape-right">>></button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="five columns controls">
+                <h4>Add transition</h4>
+                <form id="add_transition">
+                    Transition from
+                    <select id="from_transition"></select> to
+                    <select id="to_transition"></select> if
+                    <input type="text" id="if_symbol" maxlength="1" size="1" value="_" /> , move tape
+                    <select id="tape_move">
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                    </select> and put <input type="text" id="put_symbol" maxlength="1" size="1" value="_" />.
+                    <br/>
+                    <button class="button-primary" type="submit">Add transition</button>
+                </form>
+            </div>
+
+
+            <div class="four columns controls">
+                <h4>Add states</h4>
+                <button class="button-primary add-state" id="add-nonterm-state">Add state</button>
+                <button class="button-primary add-state" id="add-success-state">Add success state</button>
+                <button class="button-primary add-state" id="add-failure-state">Add failure state</button>
+            </div>
+            <div class="three columns controls">
+                <h4>Set delay</h4>
+                <label for="delay" id="delay-show"></label>
+                <input id="delay" type="range" min="0" max="5000" />
+                <button class="button-primary" id="run">Run</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
